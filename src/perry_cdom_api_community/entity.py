@@ -2,14 +2,12 @@ import json
 import logging
 from datetime import datetime
 from typing import Dict, List, Union
-
 from aiohttp.client_exceptions import ClientResponseError
-
 from perry_cdom_api_community.http_request import PerryHTTPRequest
+from perry_cdom_api_community.const import PERRY_CDOM_GET_INFO_URL, PERRY_CDOM_SET_WORKING_MODE
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import PERRY_CDOM_GET_INFO_URL, PERRY_CDOM_SET_WORKING_MODE
 
 
 class PerryZone:
@@ -181,7 +179,7 @@ class PerryThermostat:
 
     @zones.setter
     def zones(self, value: List[PerryZone]):
-        if not all(isinstance(zone, Zone) for zone in value):
+        if not all(isinstance(zone, PerryZone) for zone in value):
             raise ValueError("All elements of zones must be of type Zone.")
         self._zones = value
 

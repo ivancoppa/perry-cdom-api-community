@@ -1,11 +1,8 @@
 import logging
-
-_LOGGER = logging.getLogger(__name__)
-
 from aiohttp import ClientResponse, ClientSession
-
 from perry_cdom_api_community.const import PERRY_CDOM_BASE_URL
 
+_LOGGER = logging.getLogger(__name__)
 
 class PerryHTTPRequest:
     def __init__(self, session: ClientSession, serial_number, pin):
