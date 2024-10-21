@@ -1,0 +1,58 @@
+[project]
+name = "perry-cdom-api-community"
+authors = [
+  { name = "ivan.coppa", email = "ivan.coppa@gmail.com" },
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+]
+dynamic = ["version", "description"]
+dependencies = ["aiohttp"]
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://github.com/ivancoppa"
+Repository = "https://github.com/ivancoppa/perry-cdom-api-community.git"
+"Bug Tracker" = "https://github.com/ivancoppa/perry-cdom-api-community/issues"
+
+[tool.poetry]
+name = "perry_cdom_api_community"
+version = "0.0.1"
+description = "This is a Python client for the Perry Electric CDOM/CRM4.0 API."
+authors = ["Ivan Coppa <ivan.coppa@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/ivancoppa/perry_cdom_api_community"
+packages = [
+    { include = "perry_cdom_api_community", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+aiohttp = "^3.9.5"
+pyjwt = "^2.8.0"
+
+[tool.poetry.group.dev.dependencies]
+certifi = "2024.7.4"
+pytest = "^7.4"
+pytest-sugar = "*"
+pytest-cov = "*"
+pytest-asyncio = "^0.23.8"
+aioresponses = "^0.7.2"
+black = "*"
+mypy = "*"
+ruff = "*"
+isort = "*"
+tox = "*"
+tox-gh-actions = "^3.2.0"
+pre-commit = "^3.8.0"
+
+[tool.poetry.extras]
+cli = ["certifi"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
