@@ -5,8 +5,10 @@ from typing import Dict, List, Union
 
 from aiohttp.client_exceptions import ClientResponseError
 
-from perry_cdom_api_community.const import (PERRY_CDOM_GET_INFO_URL,
-                                            PERRY_CDOM_SET_WORKING_MODE)
+from perry_cdom_api_community.const import (
+    PERRY_CDOM_GET_INFO_URL,
+    PERRY_CDOM_SET_WORKING_MODE,
+)
 from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 _LOGGER = logging.getLogger(__name__)
@@ -53,8 +55,8 @@ class PerryZone:
             raise ValueError("Temperature must be between 0 and 100")
         self._last_temperature = value
 
-    #@property
-    #def last_temperature_date(self) -> datetime:
+    # @property
+    # def last_temperature_date(self) -> datetime:
     #    return self._last_temperature_date
 
     @property
@@ -155,9 +157,9 @@ class PerryThermostat:
     def cdom_serial_number(self) -> int:
         return self._cdom_serial_number
 
-   # @property
-   # def creation_date(self) -> datetime:
-   #     return self._creation_date
+    # @property
+    # def creation_date(self) -> datetime:
+    #     return self._creation_date
 
     @property
     def anti_freeze_enabled(self) -> bool:
@@ -175,17 +177,17 @@ class PerryThermostat:
     def anti_heat_enabled(self, value: bool):
         self._anti_heat_enabled = value
 
-    #@property
-    #def zones(self) -> List[PerryZone]:
+    # @property
+    # def zones(self) -> List[PerryZone]:
     #    return self._zones
 
-    #@zones.setter
-    #def zones(self, value: List[PerryZone]):
+    # @zones.setter
+    # def zones(self, value: List[PerryZone]):
     #    if not all(isinstance(zone, PerryZone) for zone in value):
     #        raise ValueError("All elements of zones must be of type Zone.")
     #    self._zones = value
 
-    #def add_zone(self, zone: PerryZone):
+    # def add_zone(self, zone: PerryZone):
     #    if not isinstance(zone, PerryZone):
     #        raise ValueError("Only Zone objects can be added.")
     #    self._zones.append(zone)
