@@ -1,25 +1,19 @@
-from datetime import datetime
-from typing import List, Optional, Union
-from typing import Any, Dict
-from aiohttp.client_exceptions import ClientResponseError
-
-import logging
 import json
+import logging
+from datetime import datetime
+from typing import Dict, List, Union
+
+from aiohttp.client_exceptions import ClientResponseError
 
 from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import (
-    PERRY_CDOM_GET_INFO_URL,
-    PERRY_CDOM_SET_WORKING_MODE
-)
+from .const import PERRY_CDOM_GET_INFO_URL, PERRY_CDOM_SET_WORKING_MODE
+
 
 class PerryZone:
-    def __init__(self,
-            zone_id: str,
-            name: str,
-            initial_data: Dict):
+    def __init__(self, zone_id: str, name: str, initial_data: Dict):
 
         self._zone_id = zone_id
         self._name = name.strip()  # Normalize name to avoid trailing spaces
