@@ -5,8 +5,10 @@ from typing import Dict, List, Union
 
 from aiohttp.client_exceptions import ClientResponseError
 
-from perry_cdom_api_community.const import (PERRY_CDOM_GET_INFO_URL,
-                                            PERRY_CDOM_SET_WORKING_MODE)
+from perry_cdom_api_community.const import (
+    PERRY_CDOM_GET_INFO_URL,
+    PERRY_CDOM_SET_WORKING_MODE,
+)
 from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 _LOGGER = logging.getLogger(__name__)
