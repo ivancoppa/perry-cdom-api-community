@@ -1,0 +1,20 @@
+[project]
+name = "perry-cdom-api-community"
+authors = [
+  { name = "ivan.coppa", email = "ivan.coppa@gmail.com" },
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+]
+dynamic = ["version", "description"]
+dependencies = ["aiohttp"]
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://github.com/ivancoppa"
+Repository = "https://github.com/ivancoppa/perry-cdom-api-community.git"
+"Bug Tracker" = "https://github.com/ivancoppa/perry-cdom-api-community/issues"
