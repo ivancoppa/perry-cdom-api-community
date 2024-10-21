@@ -28,6 +28,18 @@ async def main():
     )
 
     _list_parser = subparsers.add_parser("list")
+    _list_parser.add_argument(
+        "-s",
+        dest="cdom_serial_number",
+        help="Serial number of the thermostat",
+        required=True,
+    )
+    _list_parser.add_argument(
+        "-p",
+        dest="pin",
+        help="Pin of the thermostat",
+        required=True,
+    )
 
     command_parser = subparsers.add_parser("command")
     command_parser.add_argument(
@@ -55,7 +67,7 @@ async def main():
     conn = aiohttp.TCPConnector(ssl=ssl_context)
 
     async with aiohttp.ClientSession(connector=conn) as session:
-        hub = PerryCdomCrm4API(session, 1820188, 1234)
+        hub = PerryCdomCrm4API(session, args.cdom_serial_number, args.pin)
         thermostat = await hub.async_get_thermostat()
         await thermostat.async_update()
 

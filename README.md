@@ -8,10 +8,10 @@
 **UNOFFICIAL** library for communicating with Perry Electric CDOM/CRM4.0 apis.
 
 
-## Installation
+# Installation
+Use poetry install --extras cli to install dependencies for CLI and the library itself.
 
-```sh
-[venv-python3] user@localhost:~
-$ pip install perry-cdom-api-community
-```
+# Listing devices
+To list all devices, use the list command:
 
+poetry run python3 src/cli.py list
