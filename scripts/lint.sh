@@ -1,6 +1,5 @@
 #!/bin/bash
 black .
-mypy .
-ruff check
-black --diff .
 isort .
+ruff check
+mypy .
