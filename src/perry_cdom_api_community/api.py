@@ -2,7 +2,8 @@ import logging
 
 from aiohttp import ClientSession
 
-from perry_cdom_api_community.const import PERRY_CDOM_BASE_URL, PERRY_CDOM_GET_INFO_URL
+from perry_cdom_api_community.const import (PERRY_CDOM_BASE_URL,
+                                            PERRY_CDOM_GET_INFO_URL)
 from perry_cdom_api_community.entity import PerryThermostat
 from perry_cdom_api_community.http_request import PerryHTTPRequest
 
