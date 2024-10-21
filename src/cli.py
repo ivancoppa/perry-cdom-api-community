@@ -5,11 +5,11 @@ import logging
 import ssl
 
 import aiohttp
-import certifi
 
 from perry_cdom_api_community.api import PerryCdomCrm4API
 
 logging.basicConfig(level=logging.DEBUG)
+
 
 async def main():
     parser = argparse.ArgumentParser()
@@ -18,7 +18,10 @@ async def main():
     login_parser = subparsers.add_parser("login")
     required_argument = login_parser.add_argument_group("required arguments")
     required_argument.add_argument(
-        "-c", dest="cdom_serial_number", help="Serial number of the thermostat", required=True
+        "-c",
+        dest="cdom_serial_number",
+        help="Serial number of the thermostat",
+        required=True,
     )
     required_argument.add_argument(
         "-p", dest="pin", help="Pin of the thermostat", required=True
@@ -51,8 +54,6 @@ async def main():
     ssl_context = ssl.create_default_context()
     conn = aiohttp.TCPConnector(ssl=ssl_context)
 
-
-
     async with aiohttp.ClientSession(connector=conn) as session:
         hub = PerryCdomCrm4API(session, 1820188, 1234)
         thermostat = await hub.async_get_thermostat()
@@ -64,7 +65,7 @@ async def main():
 
         if args.cmd == "command":
             try:
-               await thermostat.send_command(json.loads(args.command))
+                await thermostat.send_command(json.loads(args.command))
             except StopIteration:
                 print(f"Thermostat with ID {args.cdom_serial_number} was not found")
 
