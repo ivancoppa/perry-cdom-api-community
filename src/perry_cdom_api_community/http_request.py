@@ -1,12 +1,11 @@
 import logging
+
 _LOGGER = logging.getLogger(__name__)
 
 from aiohttp import ClientResponse, ClientSession
 
-from perry_cdom_api_community.const import (
-    PERRY_CDOM_BASE_URL,
-    PERRY_CDOM_GET_INFO_URL
-)
+from perry_cdom_api_community.const import PERRY_CDOM_BASE_URL
+
 
 class PerryHTTPRequest:
     def __init__(self, session: ClientSession, serial_number, pin):
@@ -18,8 +17,8 @@ class PerryHTTPRequest:
     async def request(self, method: str, path: str, **kwargs) -> ClientResponse:
         """Make a request."""
         json = kwargs.get("json", {})
-        json['Pin'] = self._pin
-        json['CdomSerialNumber'] = self._cdom_serial_number
+        json["Pin"] = self._pin
+        json["CdomSerialNumber"] = self._cdom_serial_number
         print(json)
         headers = kwargs.get("headers")
 
@@ -28,7 +27,7 @@ class PerryHTTPRequest:
         else:
             headers = dict(headers)
 
-        headers['Content-type'] = 'application/json'
+        headers["Content-type"] = "application/json"
 
         return await self.session.request(
             method, f"{self.host}/{path}", headers=headers, json=json
