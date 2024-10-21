@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class PerryZone:
-    def __init__(self, zone_id: str, name: str, initial_data: Dict):
+    def __init__(self, zone_id: int, name: str, initial_data: Dict):
 
         self._zone_id = zone_id
         self._name = name.strip()  # Normalize name to avoid trailing spaces
@@ -55,9 +55,9 @@ class PerryZone:
             raise ValueError("Temperature must be between 0 and 100")
         self._last_temperature = value
 
-    @property
-    def last_temperature_date(self) -> datetime:
-        return self._last_temperature_date
+    #@property
+    #def last_temperature_date(self) -> datetime:
+    #    return self._last_temperature_date
 
     @property
     def current_mode(self) -> int:
@@ -157,9 +157,9 @@ class PerryThermostat:
     def cdom_serial_number(self) -> int:
         return self._cdom_serial_number
 
-    @property
-    def creation_date(self) -> datetime:
-        return self._creation_date
+   # @property
+   # def creation_date(self) -> datetime:
+   #     return self._creation_date
 
     @property
     def anti_freeze_enabled(self) -> bool:
@@ -177,20 +177,20 @@ class PerryThermostat:
     def anti_heat_enabled(self, value: bool):
         self._anti_heat_enabled = value
 
-    @property
-    def zones(self) -> List[PerryZone]:
-        return self._zones
+    #@property
+    #def zones(self) -> List[PerryZone]:
+    #    return self._zones
 
-    @zones.setter
-    def zones(self, value: List[PerryZone]):
-        if not all(isinstance(zone, PerryZone) for zone in value):
-            raise ValueError("All elements of zones must be of type Zone.")
-        self._zones = value
+    #@zones.setter
+    #def zones(self, value: List[PerryZone]):
+    #    if not all(isinstance(zone, PerryZone) for zone in value):
+    #        raise ValueError("All elements of zones must be of type Zone.")
+    #    self._zones = value
 
-    def add_zone(self, zone: PerryZone):
-        if not isinstance(zone, PerryZone):
-            raise ValueError("Only Zone objects can be added.")
-        self._zones.append(zone)
+    #def add_zone(self, zone: PerryZone):
+    #    if not isinstance(zone, PerryZone):
+    #        raise ValueError("Only Zone objects can be added.")
+    #    self._zones.append(zone)
 
     async def set_zone_manual_temperature(self, zone_id, temperature) -> bool:
         payload = {}
