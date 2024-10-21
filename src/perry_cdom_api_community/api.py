@@ -9,7 +9,7 @@ from perry_cdom_api_community.const import (
 )
 
 from perry_cdom_api_community.entity import PerryThermostat
-from perry_cdom_api_community.api_request import PerryHTTPRequest
+from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 class PerryCdomCrm4API:
     """Class to communicate with the Perry CDOM CRM 4.0 API."""
