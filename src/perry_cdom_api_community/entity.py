@@ -25,7 +25,7 @@ class PerryZone:
         if isinstance(date_str, datetime):
             return date_str
         try:
-            return datetime.strptime(date_str, '%d/%m/%Y %H:%M:%S')
+            return datetime.strptime(date_str, "%d/%m/%Y %H:%M:%S")
         except ValueError:
             raise ValueError(f"Invalid date format: {date_str}")
 
