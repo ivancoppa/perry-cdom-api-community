@@ -6,7 +6,7 @@ from aiohttp.client_exceptions import ClientResponseError
 import logging
 import json
 
-from perry_cdom_api_community.api_request import PerryHTTPRequest
+from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 _LOGGER = logging.getLogger(__name__)
 
