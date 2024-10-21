@@ -118,30 +118,26 @@ class PerryZone:
     def __repr__(self):
         return f"Zone(name={self._name}, last_temperature={self._last_temperature}, mode={self._current_mode})"
 
+
 class PerryThermostat:
-    def __init__(self, 
-                 cdom_serial_number: int,
-                 api: PerryHTTPRequest,
-                 initial_data: Dict):
-#                 creation_date: Union[str, datetime],
-                 #anti_freeze_enabled: bool = True,
-                 #anti_heat_enabled: bool = True,
-                 #zones: Optional[List[PerryZone]] = None):
+    def __init__(
+        self, cdom_serial_number: int, api: PerryHTTPRequest, initial_data: Dict
+    ):
+        #                 creation_date: Union[str, datetime],
+        # anti_freeze_enabled: bool = True,
+        # anti_heat_enabled: bool = True,
+        # zones: Optional[List[PerryZone]] = None):
         self._cdom_serial_number = cdom_serial_number
         self.api = api
         self.initial_data = initial_data
-        self.thermo_zones_container_data = self.initial_data['ThermoZonesContainer']
-        #self.thermo_zones_container_data: dict[str, str] = {}
-        #self.capabilities_data: dict[str, Any] = {}
+        self.thermo_zones_container_data = self.initial_data["ThermoZonesContainer"]
+        # self.thermo_zones_container_data: dict[str, str] = {}
+        # self.capabilities_data: dict[str, Any] = {}
 
         self._zones = {}
-        for zone in self.initial_data['ThermoZonesContainer']['zones']:
-            PerryZone(
-                zone['zoneId'], 
-                zone['name'], 
-                zone
-            )
-            self._zones[zone['zoneId']]=zone;
+        for zone in self.initial_data["ThermoZonesContainer"]["zones"]:
+            PerryZone(zone["zoneId"], zone["name"], zone)
+            self._zones[zone["zoneId"]] = zone
 
     @staticmethod
     def _parse_date(date_str: Union[str, datetime]) -> datetime:
@@ -149,7 +145,7 @@ class PerryThermostat:
         if isinstance(date_str, datetime):
             return date_str
         try:
-            return datetime.strptime(date_str, '%d/%m/%Y %H:%M:%S')
+            return datetime.strptime(date_str, "%d/%m/%Y %H:%M:%S")
         except ValueError:
             raise ValueError(f"Invalid date format: {date_str}")
 
@@ -196,41 +192,42 @@ class PerryThermostat:
 
     async def set_zone_manual_temperature(self, zone_id, temperature) -> bool:
         payload = {}
-        payload['zones'] = self.thermo_zones_container_data['zones']
-        for id in range(len(payload['zones'])):
-            if payload['zones'][id]['zoneId'] == zone_id:
-                payload['zones'][id]['customTemperatureForManualMode'] = temperature
-                payload['zones'][id]['currentProfileLevel'] = 5
-                payload['zones'][id]['currentMode'] = 2
+        payload["zones"] = self.thermo_zones_container_data["zones"]
+        for id in range(len(payload["zones"])):
+            if payload["zones"][id]["zoneId"] == zone_id:
+                payload["zones"][id]["customTemperatureForManualMode"] = temperature
+                payload["zones"][id]["currentProfileLevel"] = 5
+                payload["zones"][id]["currentMode"] = 2
 
-        _LOGGER.info("PerryCoordinators set_manual_temperature "  + json.dumps(payload))
+        _LOGGER.info("PerryCoordinators set_manual_temperature " + json.dumps(payload))
         return await self.send_command(payload)
-    
 
     async def send_command(self, changes: Dict):
-        _LOGGER.info(f"Changes '{changes}' sent to thermostat {self._cdom_serial_number}")
+        _LOGGER.info(
+            f"Changes '{changes}' sent to thermostat {self._cdom_serial_number}"
+        )
 
         data = self.thermo_zones_container_data | changes
-        del data['CdomSerialNumber']
-        del data['CreationDate']
-        del data['easyModeCoolingActivationTime']
-        del data['easyModeCoolingSwitchOffTime']
-        del data['easyModeHeatingActivationTime']
-        del data['easyModeHeatingSwitchOffTime']
+        del data["CdomSerialNumber"]
+        del data["CreationDate"]
+        del data["easyModeCoolingActivationTime"]
+        del data["easyModeCoolingSwitchOffTime"]
+        del data["easyModeHeatingActivationTime"]
+        del data["easyModeHeatingSwitchOffTime"]
 
         payload = {
-            "ThermoZonesContainer": json.dumps(data) # The modified zones container
+            "ThermoZonesContainer": json.dumps(data)  # The modified zones container
         }
 
-        resp = await self.api.request(
-            "post", PERRY_CDOM_SET_WORKING_MODE, json=payload
-        )
+        resp = await self.api.request("post", PERRY_CDOM_SET_WORKING_MODE, json=payload)
         try:
             data = await resp.json()
             _LOGGER.info(f"Response from thermostat {self._cdom_serial_number}: {data}")
             resp.raise_for_status()
         except ClientResponseError as e:
-            _LOGGER.error(f"Error sending command '{changes}' to thermostat {self._cdom_serial_number}")
+            _LOGGER.error(
+                f"Error sending command '{changes}' to thermostat {self._cdom_serial_number}"
+            )
             raise e
 
     async def async_update(self):
