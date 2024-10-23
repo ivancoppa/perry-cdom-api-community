@@ -21,7 +21,7 @@ Repository = "https://github.com/ivancoppa/perry-cdom-api-community.git"
 
 [tool.poetry]
 name = "perry_cdom_api_community"
-version = "0.0.1"
+version = "0.0.2"
 description = "This is a Python client for the Perry Electric CDOM/CRM4.0 API."
 authors = ["Ivan Coppa <ivan.coppa@gmail.com>"]
 readme = "README.md"
