@@ -59,7 +59,7 @@ class PerryCdomCrm4API:
             return True
         except ClientResponseError as e:
             _LOGGER.error(
-                f"Error sending command '{thermo_zone_container}' to thermostat {self._cdom_serial_number} : {e}"
+                f"Error sending command '{thermo_zone_container}' to thermostat {self.cdom_serial_number} : {e}"
             )
             # raise e
             return False

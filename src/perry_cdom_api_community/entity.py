@@ -4,14 +4,13 @@ from datetime import datetime
 # from typing import Dict, List, Union
 from typing import Dict, List, Union
 
-
-from perry_cdom_api_community.http_request import PerryHTTPRequest
+from perry_cdom_api_community.api import PerryCdomCrm4API
 
 _LOGGER = logging.getLogger(__name__)
 
 
 class PerryThermostat:
-    def __init__(self, cdom_serial_number: int, api: PerryHTTPRequest):
+    def __init__(self, cdom_serial_number: int, api: PerryCdomCrm4API):
         self.cdom_serial_number = cdom_serial_number
         self.api = api
         self.initial_data: Dict = {}
@@ -30,10 +29,10 @@ class PerryThermostat:
             raise ValueError(f"Invalid date format: {date_str}")
 
     @property
-    def get_zones(self) -> List:
+    def get_zones(self) -> Dict:
         return self._zones
 
-    async def get_thermostat(self) -> Dict:
+    async def get_thermostat(self):
         # calling HTTP API PerryCdomCrm4API
         self.initial_data = await self.api.get_thermoreg()
         self.thermo_zones_container_data = self.initial_data["ThermoZonesContainer"]
@@ -89,7 +88,7 @@ class PerryThermostat:
     async def set_zone_temperature_auto(self, zone_id) -> bool:
         _LOGGER.info("PerryThermostat set_zone_temperature_auto " + str(zone_id))
         payload = {}
-        payload["zones"] = self.thermozone["zones"]
+        payload["zones"] = self.thermo_zones_container_data["zones"]
         for id in range(len(payload["zones"])):
             if payload["zones"][id]["zoneId"] == zone_id:
                 payload["zones"][id]["currentProfileLevel"] = 0
