@@ -194,6 +194,12 @@ class PerryThermostat:
     #        raise ValueError("Only Zone objects can be added.")
     #    self._zones.append(zone)
 
+    def get_data(self) -> Dict:
+        return self.initial_data
+
+    def get_thermo_zones_container_data(self) -> Dict:
+        return self.initial_data
+
     async def set_zone_manual_temperature(self, zone_id, temperature) -> bool:
         payload = {}
         payload["zones"] = self.thermo_zones_container_data["zones"]
