@@ -1,16 +1,13 @@
 import json
 import logging
 from datetime import datetime
-
 # from typing import Dict, List, Union
 from typing import Dict, Union
 
 from aiohttp.client_exceptions import ClientResponseError
 
-from perry_cdom_api_community.const import (
-    PERRY_CDOM_GET_INFO_URL,
-    PERRY_CDOM_SET_WORKING_MODE,
-)
+from perry_cdom_api_community.const import (PERRY_CDOM_GET_INFO_URL,
+                                            PERRY_CDOM_SET_WORKING_MODE)
 from perry_cdom_api_community.http_request import PerryHTTPRequest
 
 _LOGGER = logging.getLogger(__name__)
@@ -193,6 +190,12 @@ class PerryThermostat:
     #    if not isinstance(zone, PerryZone):
     #        raise ValueError("Only Zone objects can be added.")
     #    self._zones.append(zone)
+
+    def get_data(self) -> Dict:
+        return self.initial_data
+
+    def get_thermo_zones_container_data(self) -> Dict:
+        return self.initial_data
 
     async def set_zone_manual_temperature(self, zone_id, temperature) -> bool:
         payload = {}
