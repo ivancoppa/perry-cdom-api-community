@@ -7,6 +7,7 @@ import ssl
 import aiohttp
 
 from perry_cdom_api_community.api import PerryCdomCrm4API
+from perry_cdom_api_community.entity import PerryThermostat
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -67,13 +68,16 @@ async def main():
     conn = aiohttp.TCPConnector(ssl=ssl_context)
 
     async with aiohttp.ClientSession(connector=conn) as session:
+
         hub = PerryCdomCrm4API(session, args.cdom_serial_number, args.pin)
-        thermostat = await hub.async_get_thermostat()
-        await thermostat.async_update()
+        thermostat = PerryThermostat(args.cdom_serial_number, hub)
+        await thermostat.get_thermostat()
 
         print(f"Thermostat ID: {thermostat.cdom_serial_number}")
-
-        print(thermostat.cdom_serial_number)
+        print(f"Thermostat Zones: {thermostat.get_zones}")
+        print(f"Thermostat Status: {thermostat.get_thermoregulation_status()}")
+        # await thermostat.set_thermoregulation_off()
+        # print(f"Thermostat Status: {thermostat.get_thermoregulation_status()}")
 
         if args.cmd == "command":
             try:
