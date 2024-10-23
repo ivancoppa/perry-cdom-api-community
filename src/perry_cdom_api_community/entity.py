@@ -1,8 +1,9 @@
 import json
 import logging
 from datetime import datetime
+
 # from typing import Dict, List, Union
-from typing import Dict, List, Union
+from typing import Dict, Union
 
 from perry_cdom_api_community.api import PerryCdomCrm4API
 
