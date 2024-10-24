@@ -19,7 +19,6 @@ class PerryHTTPRequest:
         json = kwargs.get("json", {})
         json["Pin"] = self._pin
         json["CdomSerialNumber"] = self._cdom_serial_number
-        print(json)
         headers = kwargs.get("headers")
 
         if headers is None:

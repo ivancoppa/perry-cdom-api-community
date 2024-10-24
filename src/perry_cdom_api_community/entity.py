@@ -47,11 +47,11 @@ class PerryThermostat:
     async def set_thermostat(self, changes: Dict):
         # calling HTTP API PerryCdomCrm4API
         if await self.api.set_thermostat(self.thermo_zones_container_data, changes):
-            _LOGGER.info(
+            _LOGGER.debug(
                 f"Changes '{changes}' sent to thermostat {self.cdom_serial_number}"
             )
             # refresh data
-            _LOGGER.info("Refreshing data")
+            _LOGGER.debug("Refreshing data")
             await self.get_thermostat()
 
     def get_thermoregulation_status(self):
@@ -61,14 +61,14 @@ class PerryThermostat:
         _LOGGER.info("PerryThermostat set_thermoregulation_off")
         changes = {}
         changes["currentSharedThermoMode"] = 5
-        _LOGGER.info("PerryThermostat set_thermoregulation_off " + json.dumps(changes))
+        _LOGGER.debug("PerryThermostat set_thermoregulation_off " + json.dumps(changes))
         return await self.set_thermostat(changes)
 
     async def set_thermoregulation_on(self) -> bool:
         _LOGGER.info("PerryThermostat set_thermoregulation_off")
         changes = {}
         changes["currentSharedThermoMode"] = 0
-        _LOGGER.info("PerryThermostat set_thermoregulation_off " + json.dumps(changes))
+        _LOGGER.debug("PerryThermostat set_thermoregulation_off " + json.dumps(changes))
         return await self.set_thermostat(changes)
 
     async def set_zone_temperature_manual(self, zone_id, temperature) -> bool:
@@ -81,7 +81,7 @@ class PerryThermostat:
                 payload["zones"][id]["currentProfileLevel"] = 5
                 payload["zones"][id]["currentMode"] = 2
 
-        _LOGGER.info(
+        _LOGGER.debug(
             "PerryThermostat set_zone_temperature_manual " + json.dumps(payload)
         )
         return await self.set_thermostat(payload)
@@ -95,5 +95,34 @@ class PerryThermostat:
                 payload["zones"][id]["currentProfileLevel"] = 0
                 payload["zones"][id]["currentMode"] = 0
 
-        _LOGGER.info("PerryThermostat set_zone_temperature_auto " + json.dumps(payload))
+        _LOGGER.debug(
+            "PerryThermostat set_zone_temperature_auto " + json.dumps(payload)
+        )
+        return await self.set_thermostat(payload)
+
+    async def set_temperature_manual(self, temperature) -> bool:
+        _LOGGER.info("PerryThermostat set_zone_temperature_manual")
+        payload = {}
+        payload["zones"] = self.thermo_zones_container_data["zones"]
+        for id in range(len(payload["zones"])):
+            payload["zones"][id]["customTemperatureForManualMode"] = temperature
+            payload["zones"][id]["currentProfileLevel"] = 5
+            payload["zones"][id]["currentMode"] = 2
+
+        _LOGGER.debug(
+            "PerryThermostat set_zone_temperature_manual " + json.dumps(payload)
+        )
+        return await self.set_thermostat(payload)
+
+    async def set_temperature_auto(self) -> bool:
+        _LOGGER.info("PerryThermostat set_zone_temperature_auto")
+        payload = {}
+        payload["zones"] = self.thermo_zones_container_data["zones"]
+        for id in range(len(payload["zones"])):
+            payload["zones"][id]["currentProfileLevel"] = 0
+            payload["zones"][id]["currentMode"] = 0
+
+        _LOGGER.debug(
+            "PerryThermostat set_zone_temperature_auto " + json.dumps(payload)
+        )
         return await self.set_thermostat(payload)

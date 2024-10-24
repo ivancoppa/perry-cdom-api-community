@@ -78,6 +78,12 @@ async def main():
         print(f"Thermostat Status: {thermostat.get_thermoregulation_status()}")
         # await thermostat.set_thermoregulation_off()
         # print(f"Thermostat Status: {thermostat.get_thermoregulation_status()}")
+        # await thermostat.set_thermoregulation_off()
+        # print(f"Thermostat Status: {thermostat.get_thermoregulation_status()}")
+        # change thermostat all zones to 12 degrees
+        # await thermostat.set_temperature_manual(12)
+        # reset status to auto for all zones
+        # await thermostat.set_temperature_auto()
 
         if args.cmd == "command":
             try:
