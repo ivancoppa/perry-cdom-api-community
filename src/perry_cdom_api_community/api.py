@@ -1,6 +1,5 @@
 import json
 import logging
-from typing import Optional
 
 from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientResponseError
@@ -10,8 +9,11 @@ from perry_cdom_api_community.const import (
     PERRY_CDOM_GET_INFO_URL,
     PERRY_CDOM_SET_WORKING_MODE,
 )
-from perry_cdom_api_community.entity import PerryThermostat
+
+# from .entity import PerryThermostat
 from perry_cdom_api_community.http_request import PerryHTTPRequest
+
+# from typing import Optional
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,7 +29,7 @@ class PerryCdomCrm4API:
         self.pin = pin
         self.host = PERRY_CDOM_BASE_URL
         self.api = PerryHTTPRequest(self.session, self.cdom_serial_number, self.pin)
-        self.perry_thermostat: Optional[PerryThermostat] = None
+        self.perry_thermostat = None
 
     async def set_thermostat(self, thermo_zone_container, changes) -> bool:
         """Change the appliances."""
@@ -70,7 +72,7 @@ class PerryCdomCrm4API:
 
     async def get_thermoreg(self):
         """Update the thermostat data."""
-        _LOGGER.info("PerryCdomCrm4API: loading data from server")
+        _LOGGER.debug("PerryCdomCrm4API: loading data from server")
         resp = await self.api.request("post", PERRY_CDOM_GET_INFO_URL)
         try:
             resp.raise_for_status()
